@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    
+</style>
+{% endblock %}
+{% block content %}
+
+<div class="row">
+    <div class="col-1">
+
+    </div>
+    <div class="col-2 d-flex justify-content-start align-items-center pt-3">
+        <span class="data-text"> Data sets</span>
+    </div>
+    <div class="col-6 d-flex justify-content-end align-items-center pt-3">
+        <form style="justify-content: flex-end; align-items: center;display: flex;width: 35%; " action="" method="POST">
+            {% csrf_token %}
+        <div >
+            <span style="margin-right: 5px;">Rows:</span>
+            <input style="width: 50%;" name="value"  type="number" value="" id="">
+        </div>
+       <div >
+        <input type="submit"  style="background-color: #5CB85C;color: white;" class="btn new-schema-button">
+
+       </div>
+        </form>
+    </div>
+    <div class="col-3"></div>
+    <div class="col-1"></div>
+    <div class="col-8 pt-3">
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Created</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            {% for schema in schemas %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{schema.created_at}}</td>
+                <td>{% if schema.url %}
+                    <button type="button" style="background-color: #5CB85C;color: white;" class="btn btn-sm">Ready</button></td>
+                    {% else %} <button type="button" class="btn btn-secondary btn-sm">Processing</button>{% endif %}
+                <td>
+                    {% if schema.url %}<a href="/{{schema.url}}" >Download</a>{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}
